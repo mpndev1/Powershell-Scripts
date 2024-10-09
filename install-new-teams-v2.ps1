@@ -132,15 +132,15 @@ $MSIname = "MicrosoftTeamsMeetingAddinInstaller.msi"
 $MSTAddinMSI = "$MSTappxPath\$MSIName"
 $applockerinfo = (Get-AppLockerFileInformation -Path $MSTAddinMSI | Select -ExpandProperty Publisher)
 $MSTbinVer = $applockerinfo.BinaryVersion
-$targetDir = "C:\Program Files (x86)\Microsoft\TeamsMeetingAddin\$MSTbinVer"
+$targetDir = "C:\Program Files (x86)\Microsoft\TeamsMeetingAdd-in\$MSTbinVer"
 
 #
 # Pre-creation of the log file and folder.
 #
-New-Item -ItemType Directory -Path "C:\Program Files (x86)\Microsoft\TeamsMeetingAddin" -Force | Out-Null
-New-Item -ItemType File  "C:\Program Files (x86)\Microsoft\TeamsMeetingAddin\MSTMeetingAddin.log" -Force | Out-Null
+New-Item -ItemType Directory -Path "C:\Program Files (x86)\Microsoft\TeamsMeetingAdd-in" -Force | Out-Null
+New-Item -ItemType File  "C:\Program Files (x86)\Microsoft\TeamsMeetingAdd-in\MSTMeetingAddin.log" -Force | Out-Null
 
-Start-Process "msiexec" -ArgumentList @("/i ""$MSTAddinMSI""","/qn","/norestart ALLUSERS=1 TARGETDIR=""$targetDir"" /L*V ""C:\Program Files (x86)\Microsoft\TeamsMeetingAddin\MSTMeetingAddin.log""") -Wait
-Start-Process "c:\windows\System32\regsvr32.exe" -ArgumentList @("/s","/n","/i:user ""$targetDir\x64\Microsoft.Teams.AddinLoader.dll""")  -wait
+Start-Process "msiexec" -ArgumentList @("/i ""$MSTAddinMSI""","/qn","/norestart ALLUSERS=1 TARGETDIR=""$targetDir"" /L*V ""C:\Program Files (x86)\Microsoft\TeamsMeetingAdd-in\MSTMeetingAddin.log""") -Wait
+Start-Process "c:\windows\System32\regsvr32.exe" -ArgumentList @("/s","/n","/i:user ""$targetDir\x86\Microsoft.Teams.AddinLoader.dll""")  -wait
 
 Write-Host "`n Finished!`n"
